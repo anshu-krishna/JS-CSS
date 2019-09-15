@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>JSCSS Example 3</title>
+	<script src="js-css.js"></script>
+</head>
+<body>
+	<button>One</button>
+	<input type="button" value="Two" />
+	<span class="button">Three</span>
+	<span role="button">Four</span>
+	<h3>Generated CSS:</h3>
+
+	<script>
+		let buttons = new JSCSS('button', 'input[type="button"]', 'span.button', '[role="button"]').addStyles({
+			color: 'white',
+			background: '#212121',
+			padding: "0.8em 1.2em",
+			border: 'none',
+			font: `1rem 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif`,
+			cursor: 'pointer',
+			transition: 'all 0.25s'
+		});
+
+		let roundBorder = {
+			'border-radius': '1em'
+		};
+
+		buttons.child.hover = new JSCSS(':hover').addStyles(roundBorder, {
+			background: 'blue'
+		});
+
+		buttons.child.active = new JSCSS(':active').addStyles(roundBorder, {
+			background: 'darkblue'
+		});
+
+		buttons.child.hover.spaceFromParentSelector = false;
+		buttons.child.active.spaceFromParentSelector = false;
+
+		document.head.appendChild(buttons.styleElement);
+
+		let pre = document.createElement('pre');
+		pre.innerHTML = buttons;
+		document.body.appendChild(pre);
+	</script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>JS CSS Example 2</title>
+	<script src="js-css.js"></script>
+</head>
+<body>
+	<div id="one">
+		Hello World
+	</div>
+	<div id="two">
+		Style will be copied here
+	</div>
+	<div id="three">
+		Style will be merged here
+	</div>
+	<script>
+		// This example demonstrates some the features of JSCSS
+
+		// Create CSS block for all three divs and add them to the document.
+		let one = new JSCSS('#one');
+		one.addStyles({
+			"box-shadow": '0 0 3px black',
+			padding: '0.8em 1.2em',
+			background: '#212121',
+			color: 'white',
+			margin: '0.5em 0'
+		});
+		document.head.appendChild(one.styleElement);
+		
+		let two = new JSCSS('#two').addStyles({
+			'font-size': '5em'
+		});
+		document.head.appendChild(two.styleElement);
+
+		let three = new JSCSS('#three').addStyles({
+			'font-size': '5em'
+		});
+		document.head.appendChild(three.styleElement);
+
+		// After 5 seconds
+		setTimeout(() => {
+			// Copy one's style in two. (Overwites all the styles of two)
+			two.copyStylesFrom(one);
+			two.reRender();
+
+			// Merge one's style in two. (Overwites a style value in two if it is also present in one)
+			three.mergeStylesFrom(one);
+			three.reRender();
+
+			// After 5 seconds
+			setTimeout(() => {
+				// Delete all style values from one
+				one.deleteStyles();
+				one.reRender();
+
+				// After 10 ms
+				setTimeout(() => {
+					// Remove one's styleElement from DOM
+					one.unlinkFromDOM();
+				}, 10);
+			}, 5000);
+		}, 5000);
+	</script>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>JS CSS Example 1</title>
+	<script src="js-css.js"></script>
+	<style>
+		input[type="checkbox"] {
+			display: none;
+		}
+	</style>
+</head>
+<body>
+	<div class="mydiv">
+		<button>One</button>
+		<input type="button" value="Two" />
+		<input type="checkbox" id="chk" /> <label for="chk">Three</label>
+	</div>
+
+	<h3>Generated CSS:</h3>
+	
+	<script>
+		// This example demonstrates some the features of JSCSS
+
+		// Create a CSS block for ".mydiv"
+		let mydiv = new JSCSS('.mydiv');
+		
+		// Add styles to mydiv using the 'style' proxy
+		mydiv.style['box-shadow'] = `0 0 3px black`;
+		mydiv.style.padding = `0.5em 1em`;
+		mydiv.style['text-align'] = 'center';
+
+		
+		// Create a CSS block for various buttons
+		let buttons = new JSCSS(`button`, `input[type="button"]`, `input[type="checkbox"]+label`);
+		
+		// Add more button selectors using the add function ('selectors' is a type of JS Set and hence supports all the Set functions)
+		buttons.selectors.add(`input[type="submit"]`);
+
+		// Add styles to button using the 'addStyles' function
+		buttons.addStyles({
+			border: 'none',
+			'border-radius': '1em',
+			padding: '0.8em 1.2em',
+			color: 'white',
+			cursor: 'pointer',
+			font: `1rem 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif`
+		});
+
+		// Add multi valued property
+		buttons.style.background = [
+			`#844af0`,
+			`-webkit-gradient(linear,  left top, left bottom,  from(#844af0),to(#6d2de3))`,
+			`linear-gradient(to bottom,  #844af0 0%,#6d2de3 100%)`
+		];
+
+		// Remove buttons 'border-radius' using proxy
+		delete buttons.style['border-radius'];
+
+		// Create a CSS block for hover conditions
+		let hover = new JSCSS(':hover');
+		
+		// Configure hover selector to have no space between it and its parent selector
+		hover.spaceFromParentSelector = false;
+
+		hover.style.background = [
+			`#4e10c2`,
+			`-webkit-gradient(linear,  left top, left bottom,  from(#4e10c2),to(#4615a1))`,
+			`linear-gradient(to bottom,  #4e10c2 0%,#4615a1 100%)`
+		];
+
+		// Set hover block to be child of buttons block (think of it as hover block is inside the buttons block in SCSS)
+		buttons.child.hover = hover;
+
+		// Set buttons block to be a child of mydiv block
+		mydiv.child.button = buttons;
+
+		// Display the generated CSS
+		let pre = document.createElement('pre');
+		pre.innerHTML = String(mydiv);
+		document.body.appendChild(pre);
+
+		// Add the CSS in the document
+		document.head.appendChild(mydiv.styleElement);
+
+		// After 5 seconds change some styles and re-render
+		setTimeout(() => {
+			mydiv.style.background = '#212121';
+			mydiv.child.button.style['font-weight'] = 'bold';
+			mydiv.reRender();
+
+			pre.innerHTML += `\n\n\nAfter 5 seconds:\n\n${mydiv}`;
+		}, 5000);
+	</script>
+</body>
+</html>
