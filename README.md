@@ -1,6 +1,11 @@
 # JSCSS
 
-#### I recomend using SASS/SCSS for creating insteadof this library. But, if for some reason you wish to create CSS in JavaScript this library might help.
+#### I recommend using SASS/SCSS for creating instead of this library. But, if for some reason you wish to create CSS in JavaScript this library might help.
+
+[Example1.html JS Fiddle](https://jsfiddle.net/b0Lqueg4/)\
+[Example2.html JS Fiddle](https://jsfiddle.net/j75rkwh0/)\
+[Example3.html JS Fiddle](https://jsfiddle.net/as3or68c/)
+
 
 ### `class JSCSS` has 5 properties:
 - `style` : A `Proxy` for adding/removing styles in a block.
@@ -148,7 +153,9 @@
 	Which is not what we intened.
 	*/
 
-	// So we must disable the space between the child block selector (:hover, :active) and the parent selector (button, input[type="button"])
+	// So we must disable the space between the child block
+	// selector (:hover, :active) and the parent
+	// selector (button, input[type="button"])
 
 	buttons.child.hover.spaceFromParentSelector = false;
 	buttons.child.active.spaceFromParentSelector = false;
